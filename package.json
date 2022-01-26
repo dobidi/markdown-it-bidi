@@ -1,0 +1,25 @@
+{
+  "name": "markdown-it-bidi",
+  "version": "0.0.1",
+  "description": "A plugin for Markdown-it to add bidi support",
+  "main": "index.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "keywords": [
+    "bidi",
+    "markdown-it",
+    "markdown",
+    "rtl",
+    "bidirectional"
+  ],
+  "author": "Mostafa Ahangarha",
+  "repository": {
+    "type": "git",
+    "url": "https://github.com/ahangarha/markdown-it-bidi"
+  },
+  "license": "LGPL-3.0-or-later",
+  "devDependencies": {
+    "markdown-it": "^12.3.2"
+  }
+}
