@@ -1,17 +1,27 @@
-module.exports = function markdownItBidi (md) {
-  const bidi = function(tokens, idx) {
-    const wrapperTags = ['ul', 'ol', 'blockquote'];
-    const tag = tokens[idx].tag;
+module.exports = function markdownItBidi(md) {
+    const rules = [
+        'heading_open',
+        'blockquote_open',
+        'paragraph_open',
+        'bullet_list_open',
+        'ordered_list_open',
+        'table_open',
+        'th_open',
+        'td_open'
+    ]
 
-    let result = `<${tag} dir="auto">`;
-    result += wrapperTags.includes(tag) ? '\n' : '';
+    const bidi = defaultRenderer => (tokens, idx, opts, env, self) => {
+        const token = tokens[idx]
+        token.attrSet('dir', 'auto')
+        return defaultRenderer(tokens, idx, opts, env, self)
+    }
 
-    return result;
-  }
+    const proxy = (tokens, idx, opts, _, self) => {
+        return self.renderToken(tokens, idx, opts)
+    }
 
-  md.renderer.rules.heading_open = (...args) => bidi(...args);
-  md.renderer.rules.blockquote_open = (...args) => bidi(...args);
-  md.renderer.rules.paragraph_open = (...args) => bidi(...args);
-  md.renderer.rules.bullet_list_open = (...args) => bidi(...args);
-  md.renderer.rules.ordered_list_open = (...args) => bidi(...args);
-};
+    rules.forEach(rule => {
+        const defaultRenderer = md.renderer.rules[rule] || proxy
+        md.renderer.rules[rule] = bidi(defaultRenderer)
+    })
+}
