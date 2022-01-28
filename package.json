@@ -1,11 +1,8 @@
 {
   "name": "markdown-it-bidi",
-  "version": "0.0.1",
+  "version": "0.0.2",
   "description": "A plugin for Markdown-it to add bidi support",
   "main": "index.js",
-  "scripts": {
-    "test": "echo \"Error: no test specified\" && exit 1"
-  },
   "keywords": [
     "bidi",
     "markdown-it",
