@@ -12,6 +12,10 @@ module.exports = function markdownItBidi(md) {
 
     const bidi = defaultRenderer => (tokens, idx, opts, env, self) => {
         const token = tokens[idx]
+        const prevToken = tokens[idx - 1]
+        if (token.type === 'th_open' && prevToken.type === "tr_open") {
+            return defaultRenderer(tokens, idx, opts, env, self)
+        }
         token.attrSet('dir', 'auto')
         return defaultRenderer(tokens, idx, opts, env, self)
     }
