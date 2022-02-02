@@ -6,6 +6,7 @@
   "keywords": [
     "bidi",
     "markdown-it",
+    "markdown-it-plugin",
     "markdown",
     "rtl",
     "bidirectional"
