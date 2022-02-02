@@ -27,4 +27,7 @@ test('Add Bidi support to nested elements', () => {
   expect(
     md.render('- item 1\n    - item 2')
   ).toEqual('<ul dir="auto">\n<li>item 1\n<ul dir="auto">\n<li>item 2</li>\n</ul>\n</li>\n</ul>\n');
+  expect(
+    md.render('1. item 1\n    1. item 2')
+  ).toEqual('<ol dir="auto">\n<li>item 1\n<ol dir="auto">\n<li>item 2</li>\n</ol>\n</li>\n</ol>\n');
 });
