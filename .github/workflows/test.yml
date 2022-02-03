@@ -1,0 +1,21 @@
+name: Tests
+
+on: pull_request
+
+env:
+  FORCE_COLOR: 1
+
+jobs:
+  jest:
+    name: jest
+    runs-on: ubuntu-18.04
+    steps:
+      - uses: actions/checkout@v2
+      - uses: actions/setup-node@v1
+        with:
+          node-version: "12.x"
+      - name: Setup Dev Dependencies
+        run: |
+          npm install
+      - name: Run Test
+        run: npm test
