@@ -1,6 +1,6 @@
 {
   "name": "markdown-it-bidi",
-  "version": "0.0.3",
+  "version": "0.1.0",
   "description": "A plugin for Markdown-it to add bidi support",
   "main": "index.js",
   "keywords": [
