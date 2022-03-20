@@ -17,17 +17,17 @@ test('Add Bidi support to isolated elements', () => {
   expect(md.render('Some\ntext')).toEqual('<p dir="auto">Some\ntext</p>\n');
 
   // Lists
-  expect(md.render('- item 1\n- item 2')).toEqual('<ul dir="auto">\n<li>item 1</li>\n<li>item 2</li>\n</ul>\n');
-  expect(md.render('1. item 1\n1. item 2')).toEqual('<ol dir="auto">\n<li>item 1</li>\n<li>item 2</li>\n</ol>\n');
-  expect(md.render('1. item 1\n2. item 2')).toEqual('<ol dir="auto">\n<li>item 1</li>\n<li>item 2</li>\n</ol>\n');
+  expect(md.render('- item 1\n- item 2')).toEqual('<ul dir="auto">\n<li style="unicode-bidi:plaintext;">item 1</li>\n<li style="unicode-bidi:plaintext;">item 2</li>\n</ul>\n');
+  expect(md.render('1. item 1\n1. item 2')).toEqual('<ol dir="auto">\n<li style="unicode-bidi:plaintext;">item 1</li>\n<li style="unicode-bidi:plaintext;">item 2</li>\n</ol>\n');
+  expect(md.render('1. item 1\n2. item 2')).toEqual('<ol dir="auto">\n<li style="unicode-bidi:plaintext;">item 1</li>\n<li style="unicode-bidi:plaintext;">item 2</li>\n</ol>\n');
 });
 
 test('Add Bidi support to nested elements', () => {
   // Lists
   expect(
     md.render('- item 1\n    - item 2')
-  ).toEqual('<ul dir="auto">\n<li>item 1\n<ul>\n<li>item 2</li>\n</ul>\n</li>\n</ul>\n');
+  ).toEqual('<ul dir="auto">\n<li style="unicode-bidi:plaintext;">item 1\n<ul>\n<li style="unicode-bidi:plaintext;">item 2</li>\n</ul>\n</li>\n</ul>\n');
   expect(
     md.render('1. item 1\n    1. item 2')
-  ).toEqual('<ol dir="auto">\n<li>item 1\n<ol>\n<li>item 2</li>\n</ol>\n</li>\n</ol>\n');
+  ).toEqual('<ol dir="auto">\n<li style="unicode-bidi:plaintext;">item 1\n<ol>\n<li style="unicode-bidi:plaintext;">item 2</li>\n</ol>\n</li>\n</ol>\n');
 });

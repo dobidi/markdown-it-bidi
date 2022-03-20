@@ -7,6 +7,7 @@ module.exports = function markdownItBidi(md) {
     'bullet_list_close',
     'ordered_list_open',
     'ordered_list_close',
+    'list_item_open',
     'table_open',
     'th_open',
     'td_open'
@@ -20,6 +21,17 @@ module.exports = function markdownItBidi(md) {
     // No dir="auto" for child block-elements of lists
     if (env.parentList) {
       setDirection = false;
+    }
+
+    // Maintaining bidirectional text without affecting alignment
+    if (
+      token.type !== 'bullet_list_open' && token.type !== 'ordered_list_open' &&
+      env.parentList && token.nesting === 1
+    ) {
+      token.attrSet('style', 'unicode-bidi:inherit;');
+    }
+    if (token.type === 'list_item_open') {
+      token.attrSet('style', 'unicode-bidi:plaintext;');
     }
 
     // Store the token in the env object if it represents a top level <ul> or <ol>
