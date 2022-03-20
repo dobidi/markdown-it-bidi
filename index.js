@@ -21,28 +21,26 @@ module.exports = function markdownItBidi(md) {
   const isFirstThInTable = (token, prevToken) => 
     (token.type === 'th_open' && prevToken.type === 'tr_open');
 
+  const isInDeactiveRange = (range, targetRange) => {
+    const [start] = range || [null];
+    if (!targetRange.length) return false;
+    if (start >= targetRange[0] && start < targetRange[1]) return true;
+    return false;
+  };
+
   const bidi = defaultRenderer => (tokens, idx, opts, env, self) => {
     if (env.deactiveRange === undefined)
       env.deactiveRange = [];
 
-    const isInDeactiveRange = (range) => {
-      const [start] = range || [null];
-      if (!env.deactiveRange.length) return false;
-      if (start >= env.deactiveRange[0] && start < env.deactiveRange[1]) return true;
-
-      // we are out of the range and we can reset deactiveRange
-      env.deactiveRange = [];
-      return false;
-    };
-
     const token = tokens[idx];
     const prevToken = tokens[idx - 1];
 
-    if (!isInDeactiveRange(token.map)
+    if (!isInDeactiveRange(token.map, env.deactiveRange)
       && !isFirstChildInBlockquote(prevToken)
       && !isFirstThInTable(token, prevToken)
     ) {
       token.attrSet('dir', 'auto');
+      env.deactiveRange = [];
       if (unsupportedTypes.includes(token.type))
         env.deactiveRange = token.map;
     }
