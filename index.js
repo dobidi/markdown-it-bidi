@@ -10,13 +10,43 @@ module.exports = function markdownItBidi(md) {
     'td_open'
   ];
 
+  const unsupportedTypes = [
+    'bullet_list_open',
+    'ordered_list_open',
+  ];
+
+  const isFirstChildInBlockquote = (prevToken) =>
+    (prevToken && prevToken.type === 'blockquote_open');
+
+  const isFirstThInTable = (token, prevToken) => 
+    (token.type === 'th_open' && prevToken.type === 'tr_open');
+
   const bidi = defaultRenderer => (tokens, idx, opts, env, self) => {
+    if (env.deactvieRange === undefined)
+      env.deactvieRange = [];
+
+    const isInDeactiveRange = (range) => {
+      const [start] = range || [null];
+      if (!env.deactvieRange.length) return false;
+      if (start >= env.deactvieRange[0] && start < env.deactvieRange[1]) return true;
+
+      // we are out of the range and we can reset deactiveRange
+      env.deactvieRange = [];
+      return false;
+    };
+
     const token = tokens[idx];
     const prevToken = tokens[idx - 1];
-    if (token.type === 'th_open' && prevToken.type === 'tr_open') {
-      return defaultRenderer(tokens, idx, opts, env, self);
+
+    if (!isInDeactiveRange(token.map)
+      && !isFirstChildInBlockquote(prevToken)
+      && !isFirstThInTable(token, prevToken)
+    ) {
+      token.attrSet('dir', 'auto');
+      if (unsupportedTypes.includes(token.type))
+        env.deactvieRange = token.map;
     }
-    token.attrSet('dir', 'auto');
+
     return defaultRenderer(tokens, idx, opts, env, self);
   };
 
