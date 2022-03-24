@@ -18,7 +18,8 @@
   },
   "license": "LGPL-3.0-or-later",
   "scripts": {
-    "build": "rollup -c",
+    "build": "eslint . && rollup -c",
+    "lint": "eslint .",
     "test": "jest"
   },
   "devDependencies": {
