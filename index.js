@@ -35,16 +35,18 @@ module.exports = function markdownItBidi(md) {
     const token = tokens[idx];
     const prevToken = tokens[idx - 1];
 
-    if (!isInDeactiveRange(token.map, env.deactiveRange)
-      && !isFirstChildInBlockquote(prevToken)
-      && !isFirstThInTable(token, prevToken)
-    ) {
-      token.attrSet('dir', 'auto');
+    if (!isInDeactiveRange(token.map, env.deactiveRange)) {
       env.deactiveRange = [];
+
+      if (!isFirstChildInBlockquote(prevToken)
+        && !isFirstThInTable(token, prevToken)
+      ) {
+        token.attrSet('dir', 'auto');
+      }
+
       if (unsupportedTypes.includes(token.type))
         env.deactiveRange = token.map;
     }
-
     return defaultRenderer(tokens, idx, opts, env, self);
   };
 
