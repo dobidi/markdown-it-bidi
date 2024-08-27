@@ -31,3 +31,9 @@ test('Add Bidi support to nested elements', () => {
     md.render('1. item 1\n    1. item 2')
   ).toEqual('<ol dir="auto">\n<li>item 1\n<ol dir="auto">\n<li>item 2</li>\n</ol>\n</li>\n</ol>\n');
 });
+
+test('Omit dir=auto for first children of elements', () => {
+  expect(
+    md.render('> # Heading\n> Some text')
+  ).toEqual('<blockquote dir="auto">\n<h1>Heading</h1>\n<p dir="auto">Some text</p>\n</blockquote>\n');
+});
