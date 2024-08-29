@@ -6,7 +6,8 @@ its Markdown to HTML parser.
 ## Usage
 
 Install dependencies
-```
+
+```shell
 npm i markdown-it
 npm i markdown-it-bidi
 ```
@@ -32,7 +33,9 @@ in two lines!
 1. ordered list 1
     1. ordered list 2
 
-> blockquote
+> first paragraph
+>
+> second paragraph
 `;
 
 const result = md.render(inputText)
@@ -61,7 +64,8 @@ in two lines!</p>
 </li>
 </ol>
 <blockquote dir="auto">
-<p dir="auto">blockquote</p>
+<p>first paragraph</p>
+<p dir="auto">second paragraph</p>
 </blockquote>
 ```
 
