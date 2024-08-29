@@ -22,7 +22,7 @@ test('Add Bidi support to isolated elements', () => {
   expect(md.render('1. item 1\n2. item 2')).toEqual('<ol dir="auto">\n<li>item 1</li>\n<li>item 2</li>\n</ol>\n');
 });
 
-test('Add Bidi support to nested elements', () => {
+test('Add Bidi support to ul and ol but not li elements', () => {
   // Lists
   expect(
     md.render('- item 1\n    - item 2')
@@ -32,8 +32,17 @@ test('Add Bidi support to nested elements', () => {
   ).toEqual('<ol dir="auto">\n<li>item 1\n<ol dir="auto">\n<li>item 2</li>\n</ol>\n</li>\n</ol>\n');
 });
 
-test('Omit dir=auto for first children of elements', () => {
+test('Omit dir="auto" for the first child element', () => {
   expect(
     md.render('> # Heading\n> Some text')
   ).toEqual('<blockquote dir="auto">\n<h1>Heading</h1>\n<p dir="auto">Some text</p>\n</blockquote>\n');
+});
+
+test('Add bidi support to table', () => {
+  const markdown = `
+| a | b |
+|---|---|
+| c | d |
+`;
+  expect(md.render(markdown)).toEqual('<table dir="auto">\n<thead>\n<tr>\n<th>a</th>\n<th dir="auto">b</th>\n</tr>\n</thead>\n<tbody>\n<tr>\n<td dir="auto">c</td>\n<td dir="auto">d</td>\n</tr>\n</tbody>\n</table>\n');
 });
