@@ -16,6 +16,10 @@ module.exports = function markdownItBidi(md) {
     if (token.type === 'th_open' && prevToken.type === 'tr_open') {
       return defaultRenderer(tokens, idx, opts, env, self);
     }
+    // omit this token if this is the first child of an element
+    if (prevToken && rules.includes(prevToken.type) && token.level > prevToken.level) {
+      return defaultRenderer(tokens, idx, opts, env, self);
+    }
     token.attrSet('dir', 'auto');
     return defaultRenderer(tokens, idx, opts, env, self);
   };
